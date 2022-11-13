@@ -1,0 +1,53 @@
+.intelsatDiv {
+  background-image: url("../assets/Homepage_Desktop.png");
+  width: 100%;
+  height: 100vw;
+  padding: 100%;
+  /* position: absolute; */
+  /* height: 100%; */
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.ussfDiv {
+  background-image: url("../assets/ussf.webp");
+  width: 100%;
+  height: 100vw;
+  /* position: absolute; */
+  /* height: 100%; */
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.starshipDiv {
+  background-image: url("../assets/starship.png");
+  width: 100%;
+  height: 100vw;
+  /* position: absolute; */
+  /* height: 100%; */
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.starshipToLandDiv {
+  background-image: url("../assets/starshipToLand.png");
+  width: 100%;
+  height: 100vw;
+  /* position: absolute; */
+  /* height: 100%; */
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
