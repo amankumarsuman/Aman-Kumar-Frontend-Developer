@@ -35,6 +35,8 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Usekey } from "../customComponents/KeyBoard";
 import { dragonTableColumn } from "./dragonTableColumn";
+import { getIndividualRecord } from "../redux/actions";
+import DragonPopupDialogue from "../popupDialogue/DragonPopupDiagolue";
 
 function DragonTable() {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +49,9 @@ function DragonTable() {
   const [page, setPage] = React.useState(0);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -58,6 +60,9 @@ function DragonTable() {
   };
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
   const init = {
     id: "",
@@ -123,6 +128,13 @@ function DragonTable() {
   const handleRefresh = () => {
     getDragonTableData();
     handleReset();
+  };
+
+  //function to get individual record
+  const handleIndividualRecord = (row) => {
+    // alert(row);
+    dispatch(getIndividualRecord(row));
+    setOpen(true);
   };
   return (
     <>
@@ -218,13 +230,14 @@ function DragonTable() {
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           )
-                          .map((row) => {
+                          .map((row, i) => {
                             return (
                               <StyledTableRow
                                 hover
                                 role="checkbox"
                                 tabIndex={-1}
-                                key={row.id}
+                                key={i}
+                                onClick={() => handleIndividualRecord(row)}
                               >
                                 <TableCell>{row.id}</TableCell>
                                 <TableCell>{row.name}</TableCell>
@@ -294,6 +307,9 @@ function DragonTable() {
           </RightTableDiv>
         </>
       </MainContainerDiv>
+      {open ? (
+        <DragonPopupDialogue open={open} handleClose={handleClose} />
+      ) : null}
     </>
   );
 }

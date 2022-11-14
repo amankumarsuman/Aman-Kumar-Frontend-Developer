@@ -4,6 +4,7 @@ import { TABLE_ACTION_TYPE } from "./type";
 const initialState = {
   capsuleTable: {
     tableData: [],
+    capsuleTableIndividualRecord: {},
     isLoading: false,
     isError: false,
     pageNumber: 0,
@@ -43,6 +44,10 @@ export const tableReducer = (state = initialState, action) =>
         draftState.capsuleTable.isLoading = false;
 
         draftState.capsuleTable.isError = true;
+        break;
+      }
+      case TABLE_ACTION_TYPE.GET_INDIVIDUAL_RECORD: {
+        draftState.capsuleTable.capsuleTableIndividualRecord = payload;
         break;
       }
       default: {

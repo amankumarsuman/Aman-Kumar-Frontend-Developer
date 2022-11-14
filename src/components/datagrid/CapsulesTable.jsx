@@ -34,8 +34,9 @@ import styles from "./tableStyle.module.css";
 import { capsuleTableColumn } from "./capsuleTableColumn";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { sendCapsuleDataToStore } from "../redux/actions";
+import { getIndividualRecord, sendCapsuleDataToStore } from "../redux/actions";
 import { Usekey } from "../customComponents/KeyBoard";
+import CustomizedDialogs from "../popupDialogue/PopupDialogue";
 
 function CapsulesTable() {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +49,14 @@ function CapsulesTable() {
   const [page, setPage] = React.useState(0);
 
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -129,6 +138,14 @@ function CapsulesTable() {
     getCapsuleTableData();
     handleReset();
   };
+
+  //function to get individual record
+  const handleIndividualRecord = (row) => {
+    // alert(row);
+    dispatch(getIndividualRecord(row));
+    setOpen(true);
+  };
+
   return (
     <>
       <MainContainerDiv>
@@ -223,13 +240,14 @@ function CapsulesTable() {
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           )
-                          .map((row) => {
+                          .map((row, i) => {
                             return (
                               <StyledTableRow
                                 hover
                                 role="checkbox"
                                 tabIndex={-1}
-                                key={row.capsule_id}
+                                key={i}
+                                onClick={() => handleIndividualRecord(row)}
                               >
                                 <TableCell>{row.capsule_serial}</TableCell>
                                 <TableCell>{row.capsule_id}</TableCell>
@@ -301,6 +319,9 @@ function CapsulesTable() {
           </RightTableDiv>
         </>
       </MainContainerDiv>
+      {open ? (
+        <CustomizedDialogs open={open} handleClose={handleClose} />
+      ) : null}
     </>
   );
 }
