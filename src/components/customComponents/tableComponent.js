@@ -22,13 +22,13 @@ const LeftSearchDiv = styled(Box)({
   minWidth: "250px",
   display: "flex",
   flexDirection: "column",
-  height: "95vh",
+  height: "92vh",
   marginTop: "5.5em",
 });
 const TextFieldMainDiv = styled(Box)({
   backgroundColor: "#E1E4E8",
   height: "95vh",
-  //   padding: "10px",
+  padding: "10px",
 });
 const RightTableDiv = styled(Box)({
   backgroundColor: "#FFFFFF",
@@ -77,7 +77,24 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 const StyledTextField = styled(TextField)({
-  backgroundColor: "#fff",
+  // backgroundColor: "#fff",
+  "& label.Mui-focused": {
+    color: "green",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "green",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "grey",
+    },
+    "&:hover fieldset": {
+      borderColor: "blue",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "green",
+    },
+  },
 });
 const PaperDiv = styled(Paper)({
   width: "98%",

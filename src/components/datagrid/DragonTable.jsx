@@ -31,13 +31,12 @@ import {
 import CachedIcon from "@mui/icons-material/Cached";
 
 import styles from "./tableStyle.module.css";
-import { capsuleTableColumn } from "./capsuleTableColumn";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { sendCapsuleDataToStore } from "../redux/actions";
 import { Usekey } from "../customComponents/KeyBoard";
+import { dragonTableColumn } from "./dragonTableColumn";
 
-function CapsulesTable() {
+function DragonTable() {
   const [isLoading, setIsLoading] = useState(false);
   const [dense, setDense] = useState(false);
   const [data, setData] = useState([]);
@@ -61,28 +60,26 @@ function CapsulesTable() {
     setDense(event.target.checked);
   };
   const init = {
-    status: "",
-    search: "",
-    original_launch: "",
+    id: "",
+    type: "",
+    name: "",
   };
   const [searchValues, setSearchValues] = React.useState(init);
-  //fetching data from API
-  const getCapsuleTableData = () => {
+  //FETCHING DATA FROM API
+  const getDragonTableData = () => {
     axios
-      .get("https://api.spacexdata.com/v3/capsules")
+      .get("https://api.spacexdata.com/v3/dragons")
       .then((res) => setData(res?.data));
-    dispatch(sendCapsuleDataToStore(data));
   };
   useEffect(() => {
-    getCapsuleTableData();
+    getDragonTableData();
     return () => {};
   }, []);
 
-  const handleSearchCapsuleRecord = () => {
-    console.log(searchValues, "searchValues");
-    if (searchValues?.status) {
+  const handleSearchDragonRecord = () => {
+    if (searchValues?.name) {
       const filterData = data.filter((el) =>
-        el.status.toLowerCase().includes(searchValues?.status?.toLowerCase())
+        el.name.toLowerCase().includes(searchValues?.name?.toLowerCase())
       );
       setData(filterData);
     } else if (searchValues?.type) {
@@ -90,43 +87,41 @@ function CapsulesTable() {
         el.type.toLowerCase().includes(searchValues?.type?.toLowerCase())
       );
       setData(filterData);
-    } else if (searchValues?.original_launch) {
+    } else if (searchValues?.id) {
       const filterData = data.filter((el) =>
-        el.original_launch
-          .toLowerCase()
-          .includes(searchValues?.original_launch?.toLowerCase())
+        el.id.toLowerCase().includes(searchValues?.id?.toLowerCase())
       );
       setData(filterData);
     }
   };
 
   //for keyboard interaction
-  Usekey("Enter", handleSearchCapsuleRecord);
-  Usekey("NumpadEnter", handleSearchCapsuleRecord);
+  Usekey("Enter", handleSearchDragonRecord);
+  Usekey("NumpadEnter", handleSearchDragonRecord);
 
   const handleSearchKeys = (e) => {
     const { name, value } = e.target;
-    if (name === "status") {
-      setSearchValues({ status: value });
+    if (name === "id") {
+      setSearchValues({ id: value });
     } else if (name === "type") {
       setSearchValues({ type: value });
-    } else if (name === "original_launch") {
-      setSearchValues({ original_launch: value });
+    } else if (name === "name") {
+      setSearchValues({ name: value });
     }
   };
 
   //reset
   const handleReset = () => {
     setSearchValues({
-      status: "",
+      id: "",
       type: "",
-      original_launch: "",
+      name: "",
     });
     handleRefresh();
   };
   //refres
   const handleRefresh = () => {
-    getCapsuleTableData();
+    getDragonTableData();
     handleReset();
   };
   return (
@@ -139,10 +134,10 @@ function CapsulesTable() {
 
               <Grid item sm={12}>
                 <StyledTextField
-                  value={searchValues?.status || ""}
+                  value={searchValues?.name || ""}
                   onChange={handleSearchKeys}
-                  name="status"
-                  label="Search By Status"
+                  name="name"
+                  label="Search By Name"
                   fullWidth
                 />
               </Grid>
@@ -157,10 +152,10 @@ function CapsulesTable() {
               </Grid>
               <Grid item sm={12}>
                 <StyledTextField
-                  value={searchValues?.original_launch || ""}
+                  value={searchValues?.id || ""}
                   onChange={handleSearchKeys}
-                  name="original_launch"
-                  label="Search By Original Launch"
+                  name="id"
+                  label="Search By ID"
                   fullWidth
                 />
               </Grid>
@@ -173,7 +168,7 @@ function CapsulesTable() {
                 sx={{ width: "70%", margin: "auto", minHeight: "100px" }}
               >
                 <CustomButton
-                  onClick={handleSearchCapsuleRecord}
+                  onClick={handleSearchDragonRecord}
                   variant="contained"
                 >
                   Search
@@ -199,7 +194,7 @@ function CapsulesTable() {
                   >
                     <TableHead>
                       <TableRow>
-                        {capsuleTableColumn.map((item, i) => (
+                        {dragonTableColumn.map((item, i) => (
                           <StyledTableCell key={i}>
                             {item.label}
                           </StyledTableCell>
@@ -229,19 +224,17 @@ function CapsulesTable() {
                                 hover
                                 role="checkbox"
                                 tabIndex={-1}
-                                key={row.capsule_id}
+                                key={row.id}
                               >
-                                <TableCell>{row.capsule_serial}</TableCell>
-                                <TableCell>{row.capsule_id}</TableCell>
+                                <TableCell>{row.id}</TableCell>
+                                <TableCell>{row.name}</TableCell>
 
-                                <TableCell>{row.status}</TableCell>
-                                <TableCell>{row.original_launch}</TableCell>
-                                <TableCell>
-                                  {row.original_launch_unix}
-                                </TableCell>
-                                <TableCell>{row.landings}</TableCell>
                                 <TableCell>{row.type}</TableCell>
-                                <TableCell>{row.reuse_count}</TableCell>
+                                <TableCell>
+                                  {row.active ? "YES" : "NO"}
+                                </TableCell>
+                                <TableCell>{row.crew_capacity}</TableCell>
+                                <TableCell>{row.first_flight}</TableCell>
                               </StyledTableRow>
                             );
                           })
@@ -255,10 +248,10 @@ function CapsulesTable() {
                           <TableCell></TableCell>
                           <TableCell></TableCell>
                           <TableCell>
-                            {searchValues?.status !== ""
-                              ? "No data found for this status"
-                              : searchValues?.original_launch !== ""
-                              ? "No data found for this Original Launch"
+                            {searchValues?.name !== ""
+                              ? "No data found for this name"
+                              : searchValues?.id !== ""
+                              ? "No data found for this id"
                               : searchValues?.type !== ""
                               ? "No data found for this type"
                               : "No data found"}
@@ -305,4 +298,4 @@ function CapsulesTable() {
   );
 }
 
-export default CapsulesTable;
+export default DragonTable;
