@@ -152,9 +152,9 @@ function CapsulesTable() {
         <LeftSearchDiv>
           <TextFieldMainDiv>
             <Grid sx={{ marginTop: "1em" }} container spacing={3}>
-              <Grid item sm={12}></Grid>
+              <Grid item xs={12}></Grid>
 
-              <Grid item sm={12}>
+              <Grid item xs={12}>
                 <StyledTextField
                   value={searchValues?.status || ""}
                   onChange={handleSearchKeys}
@@ -163,7 +163,7 @@ function CapsulesTable() {
                   fullWidth
                 />
               </Grid>
-              <Grid item sm={12}>
+              <Grid item xs={12}>
                 <StyledTextField
                   value={searchValues?.type || ""}
                   onChange={handleSearchKeys}
@@ -172,7 +172,7 @@ function CapsulesTable() {
                   fullWidth
                 />
               </Grid>
-              <Grid item sm={12}>
+              <Grid item xs={12}>
                 <StyledTextField
                   value={searchValues?.original_launch || ""}
                   onChange={handleSearchKeys}
